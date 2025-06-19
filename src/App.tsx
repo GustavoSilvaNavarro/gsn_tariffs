@@ -1,8 +1,14 @@
-// import { Counter } from '@/components/Counter';
-import { Utility } from '@/components/Utility';
+import { Counter } from '@/components/Counter';
+import { PostLists } from '@/components/PostLists';
+// import { Utility } from '@/components/Utility';
 
 function App() {
-  return <Utility />;
+  return (
+    <div>
+      <Counter />
+      <PostLists />
+    </div>
+  );
 }
 
 export default App;
