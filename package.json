@@ -9,8 +9,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "check": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\" \"tests/**/*.{js,jsx,ts,tsx}\"",
-    "cy:open": "./node_modules/.bin/cypress open",
-    "cy:e2e": "./node_modules/.bin/cypress run",
+    "cy:open": "npx cypress open",
+    "cy:e2e": "npx cypress run",
     "preview": "vite preview"
   },
   "dependencies": {
