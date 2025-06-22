@@ -1,7 +1,7 @@
 {
   "files": [],
-  "compilerOptions": { //<-- add this config to the root tsconfig.json
-    "module": "ESNext",
+  "compilerOptions": {
+    "module": "ESNext", // this is for cypress to work
   },
   "references": [
     { "path": "./tsconfig.app.json" },

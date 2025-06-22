@@ -17,14 +17,14 @@ export const NavBar = () => {
             to="/utilities"
             data-testid="cy-utilities-route"
             className="flex items-center justify-center p-4 transition-all duration-300 ease-in-out cursor-pointer hover:bg-white/10 group-hover:blur-sm hover:!blur-none">
-            <ApartmentRoundedIcon />
+            <ApartmentRoundedIcon data-testid="navbar-mui-icons" />
             <h3 className="text-xl ml-2">Utilities</h3>
           </Link>
           <Link
             to="/tariffs"
             data-testid="cy-tariffs-route"
             className="flex items-center justify-center p-4 transition-all duration-300 ease-in-out cursor-pointer hover:bg-white/10 group-hover:blur-sm hover:!blur-none">
-            <InsertDriveFileRoundedIcon />
+            <InsertDriveFileRoundedIcon data-testid="navbar-mui-icons" />
             <h3 className="text-xl ml-2">Tariffs</h3>
           </Link>
         </div>
