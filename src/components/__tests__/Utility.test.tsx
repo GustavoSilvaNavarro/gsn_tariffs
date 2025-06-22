@@ -1,40 +1,34 @@
-import { render, screen } from '@testing-library/react';
-import { describe, expect, test, vi, type Mock } from 'vitest';
+import { screen } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
 import { mockListUtilities } from '@/components/__mocks__/utilitiesDataMocks';
-
 import { Utility } from '../Utility';
-
-vi.mock('@/state/genability/genabilitySlice', () => ({
-  useGetAllUtilityDataQuery: vi.fn(),
-}));
-
-import { useGetAllUtilityDataQuery } from '@/state/genability/genabilitySlice';
-
-const useGetAllUtilityDataQueryMock = useGetAllUtilityDataQuery as Mock;
+import { renderWithProviders } from '@/utils/tests/_testStore';
+import { server } from '@/mockServer/server';
+import { http, HttpResponse } from 'msw';
+import { GENABILITY_API_URL } from '@/config';
 
 describe('Utility Component tests', () => {
   test('Should render loading state', () => {
-    useGetAllUtilityDataQueryMock.mockReturnValue({ isLoading: true });
-
-    render(<Utility />);
+    renderWithProviders(<Utility />);
 
     const loader = screen.getByText('Loading...');
 
     expect(loader).toBeInTheDocument();
   });
 
-  test('should render error state', () => {
-    useGetAllUtilityDataQueryMock.mockReturnValue({ isError: true, isLoading: false });
+  test('should render error state', async () => {
+    server.use(
+      http.get(`${GENABILITY_API_URL}/public/lses`, () => {
+        return new HttpResponse(null, { status: 500 });
+      }),
+    );
+    renderWithProviders(<Utility />);
 
-    render(<Utility />);
-
-    expect(screen.getByText('Error...')).toBeInTheDocument();
+    expect(await screen.findByText('Error...')).toBeInTheDocument();
   });
 
   test('should render data table when fetch is successful', async () => {
-    useGetAllUtilityDataQueryMock.mockReturnValue({ data: mockListUtilities, isLoading: false, isError: false });
-
-    render(<Utility />);
+    renderWithProviders(<Utility />);
 
     const rowsData = await screen.findAllByTestId(/^cy-row-/);
 
