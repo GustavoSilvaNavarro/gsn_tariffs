@@ -3,8 +3,6 @@ import { server } from './mockServer/server';
 
 beforeAll(() => server.listen());
 
-afterEach(() => {
-  server.resetHandlers();
-});
+afterEach(() => server.resetHandlers());
 
 afterAll(() => server.close());

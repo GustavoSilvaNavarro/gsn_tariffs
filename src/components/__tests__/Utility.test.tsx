@@ -1,36 +1,59 @@
-import { screen } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, test, vi, beforeEach, type Mock } from 'vitest';
 import { mockListUtilities } from '@/components/__mocks__/utilitiesDataMocks';
 import { Utility } from '../Utility';
-import { renderWithProviders } from '@/utils/tests/_testStore';
-import { server } from '@/mockServer/server';
-import { http, HttpResponse } from 'msw';
-import { GENABILITY_API_URL } from '@/config';
+
+// Mock the Redux hook
+vi.mock('@/state/genability/genabilitySlice', () => ({
+  useGetAllUtilityDataQuery: vi.fn(),
+}));
+
+import { useGetAllUtilityDataQuery } from '@/state/genability/genabilitySlice';
+
+// Type the mock
+const mockUseGetAllUtilityDataQuery = useGetAllUtilityDataQuery as Mock;
 
 describe('Utility Component tests', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   test('Should render loading state', () => {
-    renderWithProviders(<Utility />);
+    mockUseGetAllUtilityDataQuery.mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      isError: false,
+    });
+
+    render(<Utility />);
 
     const loader = screen.getByText('Loading...');
 
     expect(loader).toBeInTheDocument();
   });
 
-  test('should render error state', async () => {
-    server.use(
-      http.get(`${GENABILITY_API_URL}/public/lses`, () => {
-        return new HttpResponse(null, { status: 500 });
-      }),
-    );
-    renderWithProviders(<Utility />);
+  test('should render error state', () => {
+    mockUseGetAllUtilityDataQuery.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      isError: true,
+    });
 
-    expect(await screen.findByText('Error...')).toBeInTheDocument();
+    render(<Utility />);
+
+    expect(screen.getByText('Error...')).toBeInTheDocument();
   });
 
-  test('should render data table when fetch is successful', async () => {
-    renderWithProviders(<Utility />);
+  test('should render data table when fetch is successful', () => {
+    mockUseGetAllUtilityDataQuery.mockReturnValue({
+      data: mockListUtilities,
+      isLoading: false,
+      isError: false,
+    });
 
-    const rowsData = await screen.findAllByTestId(/^cy-row-/);
+    render(<Utility />);
+
+    const rowsData = screen.getAllByTestId(/^cy-row-/);
 
     expect(screen.getByText('List of Utilities')).toBeInTheDocument();
     expect(rowsData).toHaveLength(mockListUtilities.results.length);
