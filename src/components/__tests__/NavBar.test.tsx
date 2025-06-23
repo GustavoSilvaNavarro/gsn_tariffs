@@ -10,6 +10,15 @@ vi.mock('@/assets/edf_logo.png', () => ({
 }));
 
 describe('NavBar Component tests', () => {
+  test('Component should render the data and take a snapshot', () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/']}>
+        <NavBar />
+      </MemoryRouter>,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   test('Should render the GSN logo and title correctly', () => {
     render(
       <MemoryRouter>
