@@ -37,11 +37,15 @@ export const Utility = () => {
   }
 
   return (
-    <div className="h-screen overflow-auto">
-      <div className="h-full p-8">
+    <div className="h-full flex flex-col">
+      <h1 data-testid="cy-utilities-title" className="text-center text-4xl font-bold text-[#020712] pt-4">
+        List of Utilities
+      </h1>
+
+      <div className="p-8">
         {data ? (
-          <Paper sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <TableContainer sx={{ flex: 1, overflowY: 'auto' }}>
+          <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px' }} data-testid="cy-utilities-table-data">
+            <TableContainer sx={{ borderRadius: '8px', maxHeight: '500px' }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -52,9 +56,9 @@ export const Utility = () => {
                     ))}
                   </TableRow>
                 </TableHead>
-                <TableBody className="h-full">
+                <TableBody>
                   {data.results.map((lse) => (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={lse.lseId}>
+                    <TableRow data-testid={`cy-row-${lse.lseId}`} hover role="checkbox" tabIndex={-1} key={lse.lseId}>
                       <TableCell className="min-w-xs">{lse.name}</TableCell>
                       <TableCell>{lse.lseCode}</TableCell>
                       <TableCell className="max-w-xs break-words">{lse.websiteHome}</TableCell>
@@ -67,6 +71,7 @@ export const Utility = () => {
               </Table>
             </TableContainer>
             <TablePagination
+              data-testid="cy-utilities-pagination"
               rowsPerPageOptions={[10, 25, 100, 200]}
               component="div"
               count={data.count}

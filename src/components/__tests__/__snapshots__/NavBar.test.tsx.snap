@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavBar Component tests > Component should render the data and take a snapshot 1`] = `
+<div>
+  <header
+    class="h-screen flex-[0.2_1_0%] min-w-[280px] bg-[#020712] text-white"
+  >
+    <nav
+      class="py-4"
+    >
+      <a
+        class="flex items-center justify-center p-4 cursor-pointer mb-2"
+        data-discover="true"
+        data-testid="cy-home-route"
+        href="/"
+      >
+        <img
+          alt="Logo"
+          class="w-[20%]"
+          src="mocked-gsn-logo.png"
+        />
+        <h3
+          class="text-3xl ml-3"
+        >
+          GSN
+        </h3>
+      </a>
+      <div>
+        <a
+          class="flex items-center justify-center p-4 transition-all duration-300 ease-in-out cursor-pointer hover:bg-white/10 group-hover:blur-sm hover:!blur-none"
+          data-discover="true"
+          data-testid="cy-utilities-route"
+          href="/utilities"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="navbar-mui-icons"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M17 11V5c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h5c.55 0 1-.45 1-1v-3h2v3c0 .55.45 1 1 1h5c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zM7 19H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm4 4H9v-2h2zm0-4H9V9h2zm0-4H9V5h2zm4 8h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm4 12h-2v-2h2zm0-4h-2v-2h2z"
+            />
+          </svg>
+          <h3
+            class="text-xl ml-2"
+          >
+            Utilities
+          </h3>
+        </a>
+        <a
+          class="flex items-center justify-center p-4 transition-all duration-300 ease-in-out cursor-pointer hover:bg-white/10 group-hover:blur-sm hover:!blur-none"
+          data-discover="true"
+          data-testid="cy-tariffs-route"
+          href="/tariffs"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="navbar-mui-icons"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8.83c0-.53-.21-1.04-.59-1.41l-4.83-4.83c-.37-.38-.88-.59-1.41-.59zm7 6V3.5L18.5 9H14c-.55 0-1-.45-1-1"
+            />
+          </svg>
+          <h3
+            class="text-xl ml-2"
+          >
+            Tariffs
+          </h3>
+        </a>
+      </div>
+    </nav>
+  </header>
+</div>
+`;

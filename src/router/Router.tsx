@@ -13,15 +13,8 @@ export const router = createBrowserRouter([
         index: true, // This route handles the exact '/' path
         loader: () => redirect('/utilities'), // Use loader for redirect
       },
-      // This is the actual route for /utilities
-      {
-        path: 'utilities',
-        Component: LoadEntity,
-      },
-      {
-        path: 'tariffs',
-        Component: Tariffs,
-      },
+      { path: 'utilities', Component: LoadEntity },
+      { path: 'tariffs', Component: Tariffs },
     ],
   },
 ]);
