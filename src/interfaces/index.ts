@@ -1,3 +1,3 @@
-export type { RespLses, Utility } from './genability.interfaces';
+export type { RespLses, Utility, IResponseTariff } from './genability.interfaces';
 export type { Post } from './posts.interfaces';
-export type { HeaderRows } from './common';
+export type { HeaderRows, PaginationDetails, Nullable } from './common';

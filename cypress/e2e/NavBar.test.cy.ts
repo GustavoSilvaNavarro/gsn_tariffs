@@ -1,6 +1,6 @@
 describe('NavBar Component test', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://localhost:8080/');
   });
 
   it('Should have a home title', () => {
