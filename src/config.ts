@@ -6,3 +6,6 @@ export const LOG_LEVEL = ENVIRONMENT === 'test' ? 'DEBUG' : 'INFO';
 export const GENABILITY_API_URL = import.meta.env.VITE_GENABILITY_BASE_URL as string | undefined;
 export const GENABILITY_APP_ID = import.meta.env.VITE_GENABILITY_APP_ID as string | undefined;
 export const GENABILITY_APP_KEY = import.meta.env.VITE_GENABILITY_APP_KEY as string | undefined;
+export const CUSTOMER_CLASSES = 'GENERAL,SPECIAL_USE';
+export const SERVICE_TYPES = 'ELECTRICITY,SOLAR_PV';
+export const TARIFF_TYPES = 'DEFAULT,ALTERNATIVE';
