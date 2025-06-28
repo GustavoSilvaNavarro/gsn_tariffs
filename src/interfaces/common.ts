@@ -5,3 +5,5 @@ export type HeaderRows = {
   name: string;
   align: 'center' | 'left' | 'right' | 'inherit' | 'justify';
 };
+
+export type PaginationDetails = { pageStart: number; pageCount: number };
