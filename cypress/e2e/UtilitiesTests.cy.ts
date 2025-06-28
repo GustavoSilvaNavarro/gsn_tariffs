@@ -1,6 +1,6 @@
 describe('Test Utilities route with its components', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://localhost:8080/');
   });
 
   it('Should visit /utilities endpoint and display all utilities information', () => {
