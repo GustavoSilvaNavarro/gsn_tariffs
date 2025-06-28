@@ -49,9 +49,11 @@ export const AllTariffDetails = () => {
 
   return (
     <div className="my-10 mx-6">
+      <h1 className="text-center text-4xl font-bold text-[#020712] pb-8">List of Tariffs</h1>
+
       {data ? (
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer component={Paper} sx={{ maxHeight: '500px' }}>
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow
                 sx={{
@@ -70,7 +72,7 @@ export const AllTariffDetails = () => {
             </TableHead>
             <TableBody>
               {data.results.map((tariff) => (
-                <TableRow key={tariff.masterTariffId} hover={true} className="cursor-pointer">
+                <TableRow key={tariff.masterTariffId} hover sx={{ cursor: 'pointer' }}>
                   <TableCell>{tariff.tariffName}</TableCell>
                   <TableCell>{tariff.tariffCode}</TableCell>
                   <TableCell>{tariff.masterTariffId}</TableCell>

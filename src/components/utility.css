@@ -1,0 +1,36 @@
+/* Base max-height for the table container */
+.tableContainer {
+  border-radius: 8px;
+  max-height: 900px;
+}
+
+/* Media query for screens where the viewport height */
+@media (max-height: 800px) {
+  .tableContainer {
+    max-height: 550px;
+  }
+}
+
+@media (max-height: 700px) {
+  .tableContainer {
+    max-height: 450px;
+  }
+}
+@media (max-height: 600px) {
+  .tableContainer {
+    max-height: 300px;
+  }
+}
+
+@media (max-height: 500px) {
+  .tableContainer {
+    max-height: 250px;
+  }
+}
+
+/* Case for very tall screens */
+@media (min-height: 1000px) {
+  .tableContainer {
+    max-height: 900px;
+  }
+}
