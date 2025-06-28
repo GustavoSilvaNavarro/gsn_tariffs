@@ -58,7 +58,13 @@ export const Utility = () => {
                 </TableHead>
                 <TableBody>
                   {data.results.map((lse) => (
-                    <TableRow data-testid={`cy-row-${lse.lseId}`} hover role="checkbox" tabIndex={-1} key={lse.lseId}>
+                    <TableRow
+                      data-testid={`cy-row-${lse.lseId}`}
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={lse.lseId}
+                      sx={{ cursor: 'pointer' }}>
                       <TableCell className="min-w-xs">{lse.name}</TableCell>
                       <TableCell>{lse.lseCode}</TableCell>
                       <TableCell className="max-w-xs break-words">{lse.websiteHome}</TableCell>
