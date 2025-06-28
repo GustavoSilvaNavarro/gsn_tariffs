@@ -2,6 +2,8 @@ import type { JSX } from 'react';
 import { TableCell, TableContainer, TableRow, Table, TableHead, Paper, TablePagination } from '@mui/material';
 import type { HeaderRows, RespLses, IResponseTariff } from '@/interfaces';
 
+import './tableComponent.css';
+
 type Props = {
   children: JSX.Element;
   headerRows: Array<HeaderRows>;

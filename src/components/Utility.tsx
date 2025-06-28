@@ -4,8 +4,6 @@ import { TableComponent } from '@/components/Table/TableComponent';
 import { useGetAllUtilityDataQuery } from '@/state/genability/genabilitySlice';
 import { utilityRows } from '@/utils';
 
-import './utility.css';
-
 export const Utility = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
