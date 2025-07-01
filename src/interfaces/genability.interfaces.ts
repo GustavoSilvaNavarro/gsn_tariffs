@@ -1,5 +1,6 @@
 import type { Nullable } from './common';
 
+// ! Utilities types
 export type Utility = {
   lseId: number;
   name: string;
