@@ -21,7 +21,7 @@ export const genabilitySlice = createApi({
     }),
     getAllTariffData: builder.query<IResponseTariff, PaginationDetails>({
       query: ({ pageStart, pageCount }) => ({
-        url: `/public/tariffs?customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&pageCount=${pageCount}&pageStart=${pageStart}&fields=ext`,
+        url: `/public/tariffs?pageStart=${pageStart}&pageCount=${pageCount}&customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&fields=ext`,
         headers: {
           Authorization: `Basic: ${auth}`,
           'Content-Type': 'application/json',
