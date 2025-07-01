@@ -3,6 +3,7 @@ import App from '@/App';
 import { LoadEntity } from '@/pages/LoadEntity';
 import { Tariffs } from '@/pages/Tariffs';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { SingleUtilityDetails } from '@/pages/SingleUtilityDetails';
 
 export const routes = [
   {
@@ -17,7 +18,13 @@ export const routes = [
         loader: () => redirect('/utilities'), // Use loader for redirect
         Component: LoadingSpinner,
       },
-      { path: 'utilities', Component: LoadEntity },
+      {
+        path: 'utilities',
+        children: [
+          { index: true, Component: LoadEntity },
+          { path: ':lseId', Component: SingleUtilityDetails },
+        ],
+      },
       { path: 'tariffs', Component: Tariffs },
     ],
   },
