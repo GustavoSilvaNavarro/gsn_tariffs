@@ -12,7 +12,7 @@ export const NavBar = () => {
           <h3 className="text-3xl ml-3">GSN</h3>
         </Link>
 
-        <div>
+        <div className="group">
           <Link
             to="/utilities"
             data-testid="cy-utilities-route"
