@@ -1,65 +1,94 @@
 import { useState } from 'react';
-import { TableBody, TableCell, TableRow } from '@mui/material';
-import { TableComponent } from '@/components/Table/TableComponent';
-import { useGetAllUtilityDataQuery } from '@/state/genability/genabilitySlice';
-import { utilityRows } from '@/utils';
+import {
+  useGetSingleUtilityBasedOnLseIdQuery,
+  useGetTariffsByUtilityIdQuery,
+} from '@/state/genability/genabilitySlice';
+import { TableRow, TableCell, TableBody } from '@mui/material';
+import { TableComponent } from './Table/TableComponent';
+import { tariffHeaderRows } from '@/utils';
 
-export const Utility = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [fetchPage, setFetchPage] = useState(0);
-  const { data, isLoading, isError } = useGetAllUtilityDataQuery({ pageStart: fetchPage, pageCount: rowsPerPage });
+type UtilityProps = {
+  lseId: string;
+};
+
+export const Utility = ({ lseId }: UtilityProps) => {
+  const [pageNumber, setPageNumber] = useState(0);
+  const [recordLimit, setRecordLimit] = useState(10);
+  const [recordOffset, setRecordOffset] = useState(0);
+
+  const { data, isLoading, isError } = useGetSingleUtilityBasedOnLseIdQuery(lseId);
+  const {
+    data: tariffData,
+    isError: tariffError,
+    isLoading: tariffLoading,
+  } = useGetTariffsByUtilityIdQuery({ lseId, pageCount: recordLimit, pageStart: recordOffset });
 
   const handleChangePage = (_e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    if (!data) return;
+    if (!tariffData) return;
 
-    const nextPage = newPage * rowsPerPage;
-    setPage(newPage);
-    setFetchPage(nextPage);
+    const nextPage = newPage * recordLimit;
+    setPageNumber(newPage);
+    setRecordOffset(nextPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!data) return;
+    if (!tariffData) return;
 
-    setRowsPerPage(+event.target.value);
-    setFetchPage(0);
-    setPage(0);
+    setRecordLimit(+event.target.value);
+    setRecordOffset(0);
+    setPageNumber(0);
   };
 
-  if (isLoading) {
+  if (isLoading || tariffLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError || !data) {
+  if (isError || tariffError) {
     return <div>Error...</div>;
   }
 
   return (
-    <TableComponent
-      headerRows={utilityRows}
-      data={data}
-      page={page}
-      handleChangePage={handleChangePage}
-      handleChangeRowsPerPage={handleChangeRowsPerPage}
-      title="List of Utilities">
-      <TableBody>
-        {data.results.map((lse) => (
-          <TableRow
-            data-testid={`cy-row-${lse.lseId}`}
-            hover
-            role="checkbox"
-            tabIndex={-1}
-            key={lse.lseId}
-            sx={{ cursor: 'pointer' }}>
-            <TableCell className="min-w-xs">{lse.name}</TableCell>
-            <TableCell>{lse.lseCode}</TableCell>
-            <TableCell className="max-w-xs break-words">{lse.websiteHome}</TableCell>
-            <TableCell align="center">
-              {lse.totalCustomers !== null ? lse.totalCustomers.toLocaleString('en-US') : null}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </TableComponent>
+    <section className="flex-1 h-screen overflow-auto">
+      <div className="bg-[#f5f5f5] py-4 px-6">
+        <h1 className="text-2xl">
+          {data?.results[0].name} ({data?.results[0].lseCode})
+        </h1>
+        <a
+          className="font-thin text-sky-700 hover:underline"
+          href={data?.results[0].websiteHome}
+          target="_blank"
+          rel="noreferrer">
+          {data?.results[0].websiteHome}
+        </a>
+      </div>
+
+      <div className="my-5 mx-6">
+        {tariffData ? (
+          <TableComponent
+            headerRows={tariffHeaderRows}
+            data={tariffData}
+            page={pageNumber}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}>
+            <TableBody>
+              {tariffData.results.map((tariff) => (
+                <TableRow
+                  data-testid={`cy-row-${tariff.masterTariffId}`}
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={tariff.masterTariffId}>
+                  <TableCell>{tariff.lseCode}</TableCell>
+                  <TableCell>{tariff.tariffName}</TableCell>
+                  <TableCell>{tariff.tariffCode}</TableCell>
+                  <TableCell>{tariff.tariffType}</TableCell>
+                  <TableCell>{tariff.effectiveDate}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TableComponent>
+        ) : null}
+      </div>
+    </section>
   );
 };

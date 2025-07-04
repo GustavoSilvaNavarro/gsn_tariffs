@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { GENABILITY_API_URL, GENABILITY_APP_ID, GENABILITY_APP_KEY, CUSTOMER_CLASSES, SERVICE_TYPES } from '@/config';
+import {
+  GENABILITY_API_URL,
+  GENABILITY_APP_ID,
+  GENABILITY_APP_KEY,
+  CUSTOMER_CLASSES,
+  SERVICE_TYPES,
+  TARIFF_TYPES,
+} from '@/config';
 import type { RespLses, PaginationDetails, IResponseTariff } from '@/interfaces';
 import { returnNowDateFormatted } from '@/utils';
 
@@ -21,7 +28,27 @@ export const genabilitySlice = createApi({
     }),
     getAllTariffData: builder.query<IResponseTariff, PaginationDetails>({
       query: ({ pageStart, pageCount }) => ({
-        url: `/public/tariffs?customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&pageCount=${pageCount}&pageStart=${pageStart}&fields=ext`,
+        url: `/public/tariffs?pageStart=${pageStart}&pageCount=${pageCount}&customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&fields=ext`,
+        headers: {
+          Authorization: `Basic: ${auth}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }),
+    }),
+    getSingleUtilityBasedOnLseId: builder.query<Omit<RespLses, 'pageStart' | 'pageCount'>, string>({
+      query: (lseId) => ({
+        url: `/public/lses/${lseId}?fields=ext`,
+        headers: {
+          Authorization: `Basic: ${auth}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }),
+    }),
+    getTariffsByUtilityId: builder.query<IResponseTariff, PaginationDetails & { lseId: string }>({
+      query: ({ lseId, pageStart, pageCount }) => ({
+        url: `/public/tariffs?lseId=${lseId}&pageStart=${pageStart}&pageCount=${pageCount}&customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&tariffTypes=${TARIFF_TYPES}&fields=ext`,
         headers: {
           Authorization: `Basic: ${auth}`,
           'Content-Type': 'application/json',
@@ -32,4 +59,9 @@ export const genabilitySlice = createApi({
   }),
 });
 
-export const { useGetAllUtilityDataQuery, useGetAllTariffDataQuery } = genabilitySlice;
+export const {
+  useGetAllUtilityDataQuery,
+  useGetAllTariffDataQuery,
+  useGetSingleUtilityBasedOnLseIdQuery,
+  useGetTariffsByUtilityIdQuery,
+} = genabilitySlice;

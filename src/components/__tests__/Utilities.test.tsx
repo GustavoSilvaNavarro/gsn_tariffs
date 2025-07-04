@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { Utility } from '../Utility';
+import { Utilities } from '../Utilities';
 import { server } from './utils/mockServer/server';
 import { http, HttpResponse } from 'msw';
 import { ReduxTestWrapper } from './utils/store/reduxTestWrapper';
@@ -10,7 +10,7 @@ describe('Utility Component tests', () => {
   test('Should render loading state', async () => {
     render(
       <ReduxTestWrapper>
-        <Utility />
+        <Utilities />
       </ReduxTestWrapper>,
     );
 
@@ -29,7 +29,7 @@ describe('Utility Component tests', () => {
 
     render(
       <ReduxTestWrapper>
-        <Utility />
+        <Utilities />
       </ReduxTestWrapper>,
     );
 
@@ -43,7 +43,7 @@ describe('Utility Component tests', () => {
   test('Should render data table when fetch is successful', async () => {
     render(
       <ReduxTestWrapper>
-        <Utility />
+        <Utilities />
       </ReduxTestWrapper>,
     );
 
