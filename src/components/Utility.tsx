@@ -62,31 +62,33 @@ export const Utility = ({ lseId }: UtilityProps) => {
         </a>
       </div>
 
-      {tariffData ? (
-        <TableComponent
-          headerRows={tariffHeaderRows}
-          data={tariffData}
-          page={pageNumber}
-          handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}>
-          <TableBody>
-            {tariffData.results.map((tariff) => (
-              <TableRow
-                data-testid={`cy-row-${tariff.masterTariffId}`}
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                key={tariff.masterTariffId}>
-                <TableCell>{tariff.lseCode}</TableCell>
-                <TableCell>{tariff.tariffName}</TableCell>
-                <TableCell>{tariff.tariffCode}</TableCell>
-                <TableCell>{tariff.tariffType}</TableCell>
-                <TableCell>{tariff.effectiveDate}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </TableComponent>
-      ) : null}
+      <div className="my-5 mx-6">
+        {tariffData ? (
+          <TableComponent
+            headerRows={tariffHeaderRows}
+            data={tariffData}
+            page={pageNumber}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}>
+            <TableBody>
+              {tariffData.results.map((tariff) => (
+                <TableRow
+                  data-testid={`cy-row-${tariff.masterTariffId}`}
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={tariff.masterTariffId}>
+                  <TableCell>{tariff.lseCode}</TableCell>
+                  <TableCell>{tariff.tariffName}</TableCell>
+                  <TableCell>{tariff.tariffCode}</TableCell>
+                  <TableCell>{tariff.tariffType}</TableCell>
+                  <TableCell>{tariff.effectiveDate}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TableComponent>
+        ) : null}
+      </div>
     </section>
   );
 };

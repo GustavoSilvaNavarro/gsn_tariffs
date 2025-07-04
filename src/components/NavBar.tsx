@@ -1,14 +1,14 @@
 import { Link } from 'react-router';
 import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
-import gsnIcon from '@/assets/edf_logo.png';
+import gsnIcon from '@/assets/gsn_logo.webp';
 
 export const NavBar = () => {
   return (
     <header className="h-screen flex-[0.2_1_0%] min-w-[280px] bg-[#020712] text-white">
       <nav className="py-4">
         <Link to="/" data-testid="cy-home-route" className="flex items-center justify-center p-4 cursor-pointer mb-2">
-          <img src={gsnIcon} alt="Logo" className="w-[20%]" />
+          <img src={gsnIcon} alt="GSN Logo" className="w-[20%]" />
           <h3 className="text-3xl ml-3">GSN</h3>
         </Link>
 
