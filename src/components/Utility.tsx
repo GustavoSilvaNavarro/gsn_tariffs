@@ -68,8 +68,7 @@ export const Utility = ({ lseId }: UtilityProps) => {
           data={tariffData}
           page={pageNumber}
           handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          title="List of Utilities">
+          handleChangeRowsPerPage={handleChangeRowsPerPage}>
           <TableBody>
             {tariffData.results.map((tariff) => (
               <TableRow
