@@ -1,17 +1,49 @@
-import { useGetSingleUtilityBasedOnLseIdQuery } from '@/state/genability/genabilitySlice';
+import { useState } from 'react';
+import {
+  useGetSingleUtilityBasedOnLseIdQuery,
+  useGetTariffsByUtilityIdQuery,
+} from '@/state/genability/genabilitySlice';
+import { TableRow, TableCell, TableBody } from '@mui/material';
+import { TableComponent } from './Table/TableComponent';
+import { tariffHeaderRows } from '@/utils';
 
 type UtilityProps = {
   lseId: string;
 };
 
 export const Utility = ({ lseId }: UtilityProps) => {
-  const { data, isLoading, isError } = useGetSingleUtilityBasedOnLseIdQuery(lseId);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [recordLimit, setRecordLimit] = useState(10);
+  const [recordOffset, setRecordOffset] = useState(0);
 
-  if (isLoading) {
+  const { data, isLoading, isError } = useGetSingleUtilityBasedOnLseIdQuery(lseId);
+  const {
+    data: tariffData,
+    isError: tariffError,
+    isLoading: tariffLoading,
+  } = useGetTariffsByUtilityIdQuery({ lseId, pageCount: recordLimit, pageStart: recordOffset });
+
+  const handleChangePage = (_e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    if (!tariffData) return;
+
+    const nextPage = newPage * recordLimit;
+    setPageNumber(newPage);
+    setRecordOffset(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!tariffData) return;
+
+    setRecordLimit(+event.target.value);
+    setRecordOffset(0);
+    setPageNumber(0);
+  };
+
+  if (isLoading || tariffLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError || !data) {
+  if (isError || tariffError) {
     return <div>Error...</div>;
   }
 
@@ -29,6 +61,33 @@ export const Utility = ({ lseId }: UtilityProps) => {
           {data?.results[0].websiteHome}
         </a>
       </div>
+
+      {tariffData ? (
+        <TableComponent
+          headerRows={tariffHeaderRows}
+          data={tariffData}
+          page={pageNumber}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          title="List of Utilities">
+          <TableBody>
+            {tariffData.results.map((tariff) => (
+              <TableRow
+                data-testid={`cy-row-${tariff.masterTariffId}`}
+                hover
+                role="checkbox"
+                tabIndex={-1}
+                key={tariff.masterTariffId}>
+                <TableCell>{tariff.lseCode}</TableCell>
+                <TableCell>{tariff.tariffName}</TableCell>
+                <TableCell>{tariff.tariffCode}</TableCell>
+                <TableCell>{tariff.tariffType}</TableCell>
+                <TableCell>{tariff.effectiveDate}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableComponent>
+      ) : null}
     </section>
   );
 };
