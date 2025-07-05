@@ -1,30 +1,12 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import { tariffHeaderRows } from '@/utils';
-import { useState } from 'react';
 import { useGetAllTariffDataQuery } from '@/state/genability/genabilitySlice';
 import { TableComponent } from './Table/TableComponent';
+import { usePagination } from '@/hooks/paginationHook';
 
 export const AllTariffDetails = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [fetchPage, setFetchPage] = useState(0);
-  const { data, isLoading, isError } = useGetAllTariffDataQuery({ pageCount: rowsPerPage, pageStart: fetchPage });
-
-  const handleChangePage = (_e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    if (!data) return;
-
-    const nextPage = newPage * rowsPerPage;
-    setPage(newPage);
-    setFetchPage(nextPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!data) return;
-
-    setRowsPerPage(+event.target.value);
-    setFetchPage(0);
-    setPage(0);
-  };
+  const { recordLimit, recordOffset, pageNumber, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { data, isLoading, isError } = useGetAllTariffDataQuery({ pageCount: recordLimit, pageStart: recordOffset });
 
   if (isLoading) {
     return (
@@ -48,24 +30,26 @@ export const AllTariffDetails = () => {
         List of Tariffs
       </h1>
 
-      <TableComponent
-        data={data}
-        page={page}
-        headerRows={tariffHeaderRows}
-        handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}>
-        <TableBody>
-          {data.results.map((tariff) => (
-            <TableRow key={tariff.masterTariffId} hover sx={{ cursor: 'pointer' }}>
-              <TableCell>{tariff.tariffName}</TableCell>
-              <TableCell>{tariff.tariffCode}</TableCell>
-              <TableCell>{tariff.masterTariffId}</TableCell>
-              <TableCell>{tariff.lseName}</TableCell>
-              <TableCell>{tariff.effectiveDate}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </TableComponent>
+      {data && data.results.length ? (
+        <TableComponent
+          data={data}
+          page={pageNumber}
+          headerRows={tariffHeaderRows}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}>
+          <TableBody>
+            {data.results.map((tariff) => (
+              <TableRow key={tariff.masterTariffId} hover sx={{ cursor: 'pointer' }}>
+                <TableCell className="max-w-xs break-words">{tariff.tariffName}</TableCell>
+                <TableCell className="max-w-xs break-words">{tariff.tariffCode}</TableCell>
+                <TableCell>{tariff.masterTariffId}</TableCell>
+                <TableCell className="max-w-xs break-words">{tariff.lseName}</TableCell>
+                <TableCell align="center">{tariff.effectiveDate}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableComponent>
+      ) : null}
     </div>
   );
 };
