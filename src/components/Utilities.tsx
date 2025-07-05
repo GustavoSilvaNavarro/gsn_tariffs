@@ -24,7 +24,7 @@ export const Utilities = () => {
         List of Utilities
       </h1>
 
-      {data && data.results.length ? (
+      {data ? (
         <TableComponent
           headerRows={utilityRows}
           data={data}

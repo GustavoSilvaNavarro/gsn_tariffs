@@ -30,7 +30,7 @@ export const AllTariffDetails = () => {
         List of Tariffs
       </h1>
 
-      {data && data.results.length ? (
+      {data ? (
         <TableComponent
           data={data}
           page={pageNumber}

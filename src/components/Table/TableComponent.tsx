@@ -43,6 +43,7 @@ export const TableComponent = ({
         component="div"
         count={data.count}
         rowsPerPage={data.pageCount}
+        disabled={!data || !data.results.length}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}

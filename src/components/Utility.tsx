@@ -44,7 +44,7 @@ export const Utility = ({ lseId }: UtilityProps) => {
       </div>
 
       <div className="my-5 mx-6">
-        {tariffData && tariffData.results.length ? (
+        {tariffData ? (
           <TableComponent
             headerRows={tariffHeaderRows}
             data={tariffData}
