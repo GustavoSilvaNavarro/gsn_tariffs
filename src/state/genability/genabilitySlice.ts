@@ -7,7 +7,7 @@ import {
   SERVICE_TYPES,
   TARIFF_TYPES,
 } from '@/config';
-import type { RespLses, PaginationDetails, IResponseTariff } from '@/interfaces';
+import type { RespLses, PaginationDetails, IResponseTariff, IResponseHistory } from '@/interfaces';
 import { returnNowDateFormatted } from '@/utils';
 
 const auth = btoa(`${GENABILITY_APP_ID}:${GENABILITY_APP_KEY}`);
@@ -26,9 +26,9 @@ export const genabilitySlice = createApi({
         },
       }),
     }),
-    getAllTariffData: builder.query<IResponseTariff, PaginationDetails>({
-      query: ({ pageStart, pageCount }) => ({
-        url: `/public/tariffs?pageStart=${pageStart}&pageCount=${pageCount}&customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&fields=ext`,
+    getSingleUtilityBasedOnLseId: builder.query<Omit<RespLses, 'pageStart' | 'pageCount'>, string>({
+      query: (lseId) => ({
+        url: `/public/lses/${lseId}?fields=ext`,
         headers: {
           Authorization: `Basic: ${auth}`,
           'Content-Type': 'application/json',
@@ -36,9 +36,9 @@ export const genabilitySlice = createApi({
         },
       }),
     }),
-    getSingleUtilityBasedOnLseId: builder.query<Omit<RespLses, 'pageStart' | 'pageCount'>, string>({
-      query: (lseId) => ({
-        url: `/public/lses/${lseId}?fields=ext`,
+    getAllTariffData: builder.query<IResponseTariff, PaginationDetails>({
+      query: ({ pageStart, pageCount }) => ({
+        url: `/public/tariffs?pageStart=${pageStart}&pageCount=${pageCount}&customerClasses=${CUSTOMER_CLASSES}&serviceTypes=${SERVICE_TYPES}&effectiveOn=${returnNowDateFormatted()}&fields=ext`,
         headers: {
           Authorization: `Basic: ${auth}`,
           'Content-Type': 'application/json',
@@ -56,6 +56,29 @@ export const genabilitySlice = createApi({
         },
       }),
     }),
+    getSingleTariffByMTID: builder.query<
+      Omit<IResponseTariff, 'pageStart' | 'pageCount'>,
+      { masterTariffId: string; date: string }
+    >({
+      query: ({ masterTariffId, date }) => ({
+        url: `/public/tariffs/${masterTariffId}?populateProperties=true&populateRates=true&effectiveOn=${date}&fields=ext`,
+        headers: {
+          Authorization: `Basic: ${auth}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }),
+    }),
+    getTariffHistory: builder.query<IResponseHistory, { masterTariffId: string }>({
+      query: ({ masterTariffId }) => ({
+        url: `/public/tariffs/${masterTariffId}/history`,
+        headers: {
+          Authorization: `Basic: ${auth}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }),
+    }),
   }),
 });
 
@@ -64,4 +87,6 @@ export const {
   useGetAllTariffDataQuery,
   useGetSingleUtilityBasedOnLseIdQuery,
   useGetTariffsByUtilityIdQuery,
+  useGetSingleTariffByMTIDQuery,
+  useGetTariffHistoryQuery,
 } = genabilitySlice;

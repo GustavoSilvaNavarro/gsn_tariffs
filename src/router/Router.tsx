@@ -4,6 +4,7 @@ import { LoadEntity } from '@/pages/LoadEntity';
 import { Tariffs } from '@/pages/Tariffs';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { SingleUtilityDetails } from '@/pages/SingleUtilityDetails';
+import { Tariff } from '@/pages/Tariff';
 
 export const routes = [
   {
@@ -25,7 +26,13 @@ export const routes = [
           { path: ':lseId', Component: SingleUtilityDetails },
         ],
       },
-      { path: 'tariffs', Component: Tariffs },
+      {
+        path: 'tariffs',
+        children: [
+          { index: true, Component: Tariffs },
+          { path: ':masterTariffId', Component: Tariff },
+        ],
+      },
     ],
   },
 ];
