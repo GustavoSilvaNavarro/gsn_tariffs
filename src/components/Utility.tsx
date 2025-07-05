@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   useGetSingleUtilityBasedOnLseIdQuery,
   useGetTariffsByUtilityIdQuery,
@@ -6,38 +5,20 @@ import {
 import { TableRow, TableCell, TableBody } from '@mui/material';
 import { TableComponent } from './Table/TableComponent';
 import { tariffHeaderRows } from '@/utils';
+import { usePagination } from '@/hooks/paginationHook';
 
 type UtilityProps = {
   lseId: string;
 };
 
 export const Utility = ({ lseId }: UtilityProps) => {
-  const [pageNumber, setPageNumber] = useState(0);
-  const [recordLimit, setRecordLimit] = useState(10);
-  const [recordOffset, setRecordOffset] = useState(0);
-
+  const { pageNumber, recordLimit, recordOffset, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const { data, isLoading, isError } = useGetSingleUtilityBasedOnLseIdQuery(lseId);
   const {
     data: tariffData,
     isError: tariffError,
     isLoading: tariffLoading,
   } = useGetTariffsByUtilityIdQuery({ lseId, pageCount: recordLimit, pageStart: recordOffset });
-
-  const handleChangePage = (_e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    if (!tariffData) return;
-
-    const nextPage = newPage * recordLimit;
-    setPageNumber(newPage);
-    setRecordOffset(nextPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!tariffData) return;
-
-    setRecordLimit(+event.target.value);
-    setRecordOffset(0);
-    setPageNumber(0);
-  };
 
   if (isLoading || tariffLoading) {
     return <div>Loading...</div>;

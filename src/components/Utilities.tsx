@@ -1,32 +1,14 @@
-import { useState } from 'react';
 import { TableBody, TableCell, TableRow } from '@mui/material';
 import { TableComponent } from '@/components/Table/TableComponent';
 import { useGetAllUtilityDataQuery } from '@/state/genability/genabilitySlice';
 import { utilityRows } from '@/utils';
 import { useNavigate } from 'react-router';
+import { usePagination } from '@/hooks/paginationHook';
 
 export const Utilities = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [fetchPage, setFetchPage] = useState(0);
-  const { data, isLoading, isError } = useGetAllUtilityDataQuery({ pageStart: fetchPage, pageCount: rowsPerPage });
   const navigate = useNavigate();
-
-  const handleChangePage = (_e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    if (!data) return;
-
-    const nextPage = newPage * rowsPerPage;
-    setPage(newPage);
-    setFetchPage(nextPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!data) return;
-
-    setRowsPerPage(+event.target.value);
-    setFetchPage(0);
-    setPage(0);
-  };
+  const { pageNumber, recordLimit, recordOffset, handleChangePage, handleChangeRowsPerPage } = usePagination();
+  const { data, isLoading, isError } = useGetAllUtilityDataQuery({ pageStart: recordOffset, pageCount: recordLimit });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -42,32 +24,34 @@ export const Utilities = () => {
         List of Utilities
       </h1>
 
-      <TableComponent
-        headerRows={utilityRows}
-        data={data}
-        page={page}
-        handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}>
-        <TableBody>
-          {data.results.map((lse) => (
-            <TableRow
-              data-testid={`cy-row-${lse.lseId}`}
-              hover
-              role="checkbox"
-              tabIndex={-1}
-              key={lse.lseId}
-              onClick={() => navigate(`/utilities/${lse.lseId}`)}
-              sx={{ cursor: 'pointer' }}>
-              <TableCell className="min-w-xs">{lse.name}</TableCell>
-              <TableCell>{lse.lseCode}</TableCell>
-              <TableCell className="max-w-xs break-words">{lse.websiteHome}</TableCell>
-              <TableCell align="center">
-                {lse.totalCustomers !== null ? lse.totalCustomers.toLocaleString('en-US') : null}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </TableComponent>
+      {data ? (
+        <TableComponent
+          headerRows={utilityRows}
+          data={data}
+          page={pageNumber}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}>
+          <TableBody>
+            {data.results.map((lse) => (
+              <TableRow
+                data-testid={`cy-row-${lse.lseId}`}
+                hover
+                role="checkbox"
+                tabIndex={-1}
+                key={lse.lseId}
+                onClick={() => navigate(`/utilities/${lse.lseId}`)}
+                sx={{ cursor: 'pointer' }}>
+                <TableCell className="min-w-xs">{lse.name}</TableCell>
+                <TableCell>{lse.lseCode}</TableCell>
+                <TableCell className="max-w-xs break-words">{lse.websiteHome}</TableCell>
+                <TableCell align="center">
+                  {lse.totalCustomers !== null ? lse.totalCustomers.toLocaleString('en-US') : null}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableComponent>
+      ) : null}
     </div>
   );
 };

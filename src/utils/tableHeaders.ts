@@ -2,10 +2,10 @@ import { ulid } from 'ulidx';
 import type { HeaderRows } from '@/interfaces';
 
 export const tariffHeaderRows: Array<HeaderRows> = [
+  { id: ulid(), name: 'Tariff Name', align: 'left' },
+  { id: ulid(), name: 'Tariff Code', align: 'left' },
+  { id: ulid(), name: 'Tariff ID', align: 'left' },
   { id: ulid(), name: 'Utility', align: 'left' },
-  { id: ulid(), name: 'Name', align: 'left' },
-  { id: ulid(), name: 'Code', align: 'left' },
-  { id: ulid(), name: 'Type', align: 'left' },
   { id: ulid(), name: 'Effective', align: 'left' },
 ];
 
