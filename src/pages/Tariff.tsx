@@ -5,7 +5,7 @@ export const Tariff = () => {
   const { masterTariffId } = useParams<{ masterTariffId: string }>();
 
   return (
-    <div className="flex-[0.8_1_0%] h-screen">
+    <div className="flex-[0.8_1_0%] h-screen overflow-y-auto">
       {masterTariffId ? (
         <TariffDetails masterTariffId={masterTariffId} />
       ) : (
