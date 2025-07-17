@@ -3,8 +3,10 @@ import { tariffHeaderRows } from '@/utils';
 import { useGetAllTariffDataQuery } from '@/state/genability/genabilitySlice';
 import { TableComponent } from './Table/TableComponent';
 import { usePagination } from '@/hooks/paginationHook';
+import { useNavigate } from 'react-router';
 
 export const AllTariffDetails = () => {
+  const navigate = useNavigate();
   const { recordLimit, recordOffset, pageNumber, handleChangePage, handleChangeRowsPerPage } = usePagination();
   const { data, isLoading, isError } = useGetAllTariffDataQuery({ pageCount: recordLimit, pageStart: recordOffset });
 
@@ -39,7 +41,11 @@ export const AllTariffDetails = () => {
           handleChangeRowsPerPage={handleChangeRowsPerPage}>
           <TableBody>
             {data.results.map((tariff) => (
-              <TableRow key={tariff.masterTariffId} hover sx={{ cursor: 'pointer' }}>
+              <TableRow
+                key={tariff.masterTariffId}
+                hover
+                sx={{ cursor: 'pointer' }}
+                onClick={() => navigate(`/tariffs/${tariff.masterTariffId}`)}>
                 <TableCell className="max-w-xs break-words">{tariff.tariffName}</TableCell>
                 <TableCell className="max-w-xs break-words">{tariff.tariffCode}</TableCell>
                 <TableCell>{tariff.masterTariffId}</TableCell>
