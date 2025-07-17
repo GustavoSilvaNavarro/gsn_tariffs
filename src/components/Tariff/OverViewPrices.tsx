@@ -16,6 +16,7 @@ export const OverviewTariff = ({ mtidInfo }: IProps) => {
   );
 
   const prices = getPricesPerSeason(mtidInfo.results[0].rates, filterStates);
+  console.log(mtidInfo);
 
   if (!prices) {
     return (

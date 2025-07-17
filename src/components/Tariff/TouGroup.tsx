@@ -9,7 +9,6 @@ type IProps = {
 
 export const TouGroup = ({ rates }: IProps) => {
   const [energy, setEnergy] = useState('CONSUMPTION_BASED');
-  console.log(rates);
 
   if (!rates) {
     return (
@@ -32,28 +31,36 @@ export const TouGroup = ({ rates }: IProps) => {
       </div>
 
       <div className="my-6">
-        {rates.map((rate) =>
-          rate.name === energy ? (
-            <div
-              key={ulid()}
-              className="block bg-white border p-6 border-gray-200 mb-4 rounded-lg shadow hover:bg-gray-100">
-              {rate.seasons.map((season) => (
-                <div key={ulid()}>
-                  <h3 className="text-2xl font-thin bg-shine-blue p-2 mb-2 text-white rounded">{season.name}</h3>
-                  <div className="flex items-center justify-around">
-                    {season.tous.map((tou) => (
-                      <div key={ulid()}>
-                        <h4 className="text-lg font-bold">{tou.name}</h4>
-                        <p>
-                          $ {tou.price.toPrecision(6)} {energy === 'CONSUMPTION_BASED' ? '/ kWh' : '/ kW'}
-                        </p>
+        {rates.findIndex((rate) => rate.name === energy) < 0 ? (
+          <h3 className="text-3xl text-center font-light text-gray-500">
+            There is no information related to <span className="font-bold">{energy.split('_')[0]}</span>
+          </h3>
+        ) : (
+          <>
+            {rates.map((rate) =>
+              rate.name === energy ? (
+                <div
+                  key={ulid()}
+                  className="block bg-white border p-6 border-gray-200 mb-4 rounded-lg shadow hover:bg-gray-100">
+                  {rate.seasons.map((season) => (
+                    <div key={ulid()} className="border-b-[.5px]">
+                      <h3 className="text-2xl font-thin p-2 mb-2 rounded">{season.name}</h3>
+                      <div className="flex items-center justify-around">
+                        {season.tous.map((tou) => (
+                          <div key={ulid()}>
+                            <h4 className="text-lg font-bold">{tou.name}</h4>
+                            <p>
+                              $ {tou.price.toPrecision(6)} {energy === 'CONSUMPTION_BASED' ? '/ kWh' : '/ kW'}
+                            </p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : null,
+              ) : null,
+            )}
+          </>
         )}
       </div>
     </div>

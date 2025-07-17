@@ -60,7 +60,7 @@ export const TariffDetails = ({ masterTariffId }: ITariffProps) => {
                 <AvTimer />
                 <p>Effective Date</p>
                 <select
-                  className="bg-transparent"
+                  className="bg-transparent cursor-pointer"
                   onChange={(e) => setDateEffective(e.target.value)}
                   onBlur={(e) => setDateEffective(e.target.value)}
                   value={tariffData.results[0].effectiveDate}>

@@ -14,7 +14,7 @@ export const Details = ({ tariff }: IProps) => {
         {getTariffTypes(tariff.chargeTypes).map((charge) => (
           <span
             key={charge.origin}
-            className="text-xl p-2 font-thin border rounded-2xl hover:text-white hover:bg-edf-orange hover:border-edf-orange">
+            className="text-xl p-2 font-thin border rounded-2xl hover:text-white hover:bg-gsn-black hover:border-gsn-black">
             {charge.name}
           </span>
         ))}

@@ -211,8 +211,8 @@ export const getPricesPerSeason = (rates: Array<IRates>, filters: InitialStatePr
     }
   });
 
-  console.log(touInfo);
-  console.log(restAddition);
+  // console.log(touInfo);
+  // console.log(restAddition);
 
   const otherRates = Object.values(restAddition);
   const result = Object.values(touInfo);

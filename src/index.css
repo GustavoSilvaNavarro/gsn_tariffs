@@ -6,3 +6,6 @@
 }
 
 @import "tailwindcss";
+@theme {
+  --color-gsn-black: #101214
+}
